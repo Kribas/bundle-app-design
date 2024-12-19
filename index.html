@@ -1,140 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <title>Document</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
-      <div class="eb">
-        <div class="eb__banner">
-          <h2>Get Discounted Bundle!!</h2>
-        </div>
-        <div class="eb__header">
-          <div class="eb__header-title">
-            <!-- <h1>{{ bundle.title }}</h1> -->
-          </div>
-          <div class="eb__header-badge">
-            <span>Active</span>
-          </div>
-        </div>
-        <div class="eb__body">
-          <div class="eb__description">
-            <!-- <span>{{ bundle.description }}</span> -->
-          </div>
-          <div class="eb__products owl-carousel"></div>
-          <div class="eb__product-selected-items">
-            <span
-              >Selected Items: <span id="product-selected-items"></span
-            ></span>
-          </div>
-        </div>
-        <div class="eb__connector-line-footer"></div>
-        <div class="eb__footer">
-          <div class="eb__footer-total">
-            <h3>Total</h3>
-            <div class="eb__footer-totalPrice">
-              <h3
-                id="total-discountedPrice"
-                class="eb__footer-total-discountedPrice"
-              >
-                $ 0.00
-              </h3>
-              <h4 class="eb__footer-total-originalPrice">
-                <s id="total-originalPrice">0</s>
-              </h4>
+        <div class="eb">
+            <div class="eb__banner">
+                <h2>Get Discounted Bundle!!</h2>
             </div>
-          </div>
-          <div class="eb__footer-button">
-            <button
-              id="addToCart"
-              class="eb__footer-button-addToCart"
-              type="button"
-            >
-              Add to Cart
-            </button>
-            <button id="buyNow" class="eb__footer-button-buyNow" type="button">
-              Buy Now
-            </button>
-          </div>
+            <div class="eb__header">
+                <div class="eb__header-title">
+                    <!-- <h1>{{ bundle.title }}</h1> -->
+                    <h1 id="eb__title"></h1>
+                </div>
+                <div class="eb__header-badge">
+                    <span>Active</span>
+                </div>
+            </div>
+            <div class="eb__body">
+                <div class="eb__description">
+                    <!-- <span>{{ bundle.description }}</span> -->
+                    <span id="eb__description"></span>
+                </div>
+                <div id="eb__products" class="eb__products owl-carousel"></div>
+                <div class="eb__product-selected-items">
+                    <span>Selected Items: <span id="product-selected-items"></span></span>
+                </div>
+            </div>
+            <div class="eb__connector-line-footer"></div>
+            <div class="eb__footer">
+                <div class="eb__footer-total">
+                    <h3>Total</h3>
+                    <div class="eb__footer-totalPrice">
+                        <h3 id="total-discountedPrice" class="eb__footer-total-discountedPrice">
+                            $ 0.00
+                        </h3>
+                        <h4 class="eb__footer-total-originalPrice">
+                            <s id="total-originalPrice">0</s>
+                        </h4>
+                    </div>
+                </div>
+                <div class="eb__footer-button">
+                    <button id="addToCart" class="eb__footer-button-addToCart" type="button">
+                        Add to Cart
+                    </button>
+                    <button id="buyNow" class="eb__footer-button-buyNow" type="button">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  </body>
+</body>
+
 </html>
 
 <script>
-  const bundle = {
-    title: "Meal Bundle",
-    description: "Meal Bundle, up to 30% discount",
-    components: [
-      {
-        title: "Fries",
-        imageUrl: "https://picsum.photos/200/100",
-        quantity: 2,
-        productId: "gid://shopify/Product/7131057979472",
-        variants: [
-          {
-            title: "French fries",
-            id: "gid://shopify/ProductVariant/41011800178768",
-            price: "10.00",
-            imageUrl: "https://picsum.photos/200/100",
-          },
-        ],
-      },
-      {
-        title: "Burgers",
-        imageUrl: "https://picsum.photos/200/100",
-        quantity: 1,
-        productId: "gid://shopify/Product/7131058012240",
-        variants: [
-          {
-            title: "Beef burger",
-            id: "gid://shopify/ProductVariant/41011800211536",
-            price: "15.00",
-            imageUrl: "https://picsum.photos/200/100",
-          },
-        ],
-      },
-      {
-        title: "Dessert",
-        imageUrl: "https://picsum.photos/200/100",
-        quantity: 1,
-        productId: "gid://shopify/Product/7131058045008",
-        variants: [
-          {
-            title: "Chocolate Cake",
-            id: "gid://shopify/ProductVariant/41011800244304",
-            price: "10.00",
-            imageUrl: "https://picsum.photos/200/100",
-          },
-        ],
-      },
-    ],
-    discounts: [
-      {
-        description: "Meal Bundle, 20% discount",
-        discountType: "percentage",
-        discountAmount: "20.00",
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel({
+            loop: false,
+            nav: true,
+            dots: false,
+            margin: 10,
+            navText: [
+                '<i class="fas fa-chevron-left custom-nav-arrow"></i>',
+                '<i class="fas fa-chevron-right custom-nav-arrow"></i>',
+            ],
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                600: {
+                    items: 1,
+                },
+                1000: {
+                    items: 2,
+                },
+            },
+        });
+    });
+
+    const bundle = {
+        title: "Meal Bundle",
+        description: "Meal Bundle, up to 30% discount",
         components: [
-          { productId: "gid://shopify/Product/7131057979472", percentage: 20 },
-          { productId: "gid://shopify/Product/7131058012240", percentage: 20 },
-          { productId: "gid://shopify/Product/7131058045008", percentage: 20 },
+            {
+                title: "Fries",
+                imageUrl: "https://picsum.photos/200/100",
+                quantity: 2,
+                productId: "gid://shopify/Product/7131057979472",
+                variants: [
+                    {
+                        title: "French fries",
+                        id: "gid://shopify/ProductVariant/41011800178768",
+                        price: "10.00",
+                        imageUrl: "https://picsum.photos/200/100",
+                    },
+                ],
+            },
+            {
+                title: "Burgers",
+                imageUrl: "https://picsum.photos/200/100",
+                quantity: 1,
+                productId: "gid://shopify/Product/7131058012240",
+                variants: [
+                    {
+                        title: "Beef burger",
+                        id: "gid://shopify/ProductVariant/41011800211536",
+                        price: "15.00",
+                        imageUrl: "https://picsum.photos/200/100",
+                    },
+                ],
+            },
+            {
+                title: "Dessert",
+                imageUrl: "https://picsum.photos/200/100",
+                quantity: 1,
+                productId: "gid://shopify/Product/7131058045008",
+                variants: [
+                    {
+                        title: "Chocolate Cake",
+                        id: "gid://shopify/ProductVariant/41011800244304",
+                        price: "10.00",
+                        imageUrl: "https://picsum.photos/200/100",
+                    },
+                ],
+            },
         ],
-      },
-      {
-        description: "Meal Bundle, 10% discount",
-        discountType: "percentage",
-        discountAmount: "10.00",
-        components: [
-          { productId: "gid://shopify/Product/7131057979472" },
-          { productId: "gid://shopify/Product/7131058012240" },
+        discounts: [
+            {
+                description: "Meal Bundle, 20% discount",
+                discountType: "percentage",
+                discountAmount: "20.00",
+                components: [
+                    { productId: "gid://shopify/Product/7131057979472", percentage: 20 },
+                    { productId: "gid://shopify/Product/7131058012240", percentage: 20 },
+                    { productId: "gid://shopify/Product/7131058045008", percentage: 20 },
+                ],
+            },
+            {
+                description: "Meal Bundle, 10% discount",
+                discountType: "percentage",
+                discountAmount: "10.00",
+                components: [
+                    { productId: "gid://shopify/Product/7131057979472" },
+                    { productId: "gid://shopify/Product/7131058012240" },
+                ],
+            },
         ],
-      },
-    ],
-  };
+    };
+    document.getElementById("eb__title").innerHTML = bundle.title;
+    document.getElementById("eb__description").innerHTML = bundle.description;
+
+    const products = document.getElementById("eb__products");
+    products.innerHTML = bundle.components
+        .map(
+            (component) => `<div class=eb__product>
+            <div class = eb__product-checkbox>
+                <input type="checkbox" class="product-checkbox" checked/>
+                </div>
+                <img src=${component.imageUrl} alt="Product Image" />
+                <div class="eb__product-title">
+                    <span id="product-title">${component.title}</span>
+                    </div>
+                    <div class="eb__product-variants">
+                            <select aria-valuetext=${component.productId}>
+                                    ${component.variants.map(
+                (
+                    variant
+                ) => `<option id="product-select-option" data-price=${variant.price} value=${variant.id}>
+                                        ${variant.title}
+                                        </option>`
+            )}
+                                </select>
+                        </div>
+                        <div class="eb__product-price">
+                            <span>Price: $<span class="product-price">0.00</span></span>
+                            </div>
+        </div>`
+        )
+        .join("");
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
