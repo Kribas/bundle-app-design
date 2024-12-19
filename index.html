@@ -1,11 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="eb">
+        <div class="eb__banner">
+          <h2>Get Discounted Bundle!!</h2>
+        </div>
+        <div class="eb__header">
+          <div class="eb__header-title">
+            <!-- <h1>{{ bundle.title }}</h1> -->
+          </div>
+          <div class="eb__header-badge">
+            <span>Active</span>
+          </div>
+        </div>
+        <div class="eb__body">
+          <div class="eb__description">
+            <!-- <span>{{ bundle.description }}</span> -->
+          </div>
+          <div class="eb__products owl-carousel"></div>
+          <div class="eb__product-selected-items">
+            <span
+              >Selected Items: <span id="product-selected-items"></span
+            ></span>
+          </div>
+        </div>
+        <div class="eb__connector-line-footer"></div>
+        <div class="eb__footer">
+          <div class="eb__footer-total">
+            <h3>Total</h3>
+            <div class="eb__footer-totalPrice">
+              <h3
+                id="total-discountedPrice"
+                class="eb__footer-total-discountedPrice"
+              >
+                $ 0.00
+              </h3>
+              <h4 class="eb__footer-total-originalPrice">
+                <s id="total-originalPrice">0</s>
+              </h4>
+            </div>
+          </div>
+          <div class="eb__footer-button">
+            <button
+              id="addToCart"
+              class="eb__footer-button-addToCart"
+              type="button"
+            >
+              Add to Cart
+            </button>
+            <button id="buyNow" class="eb__footer-button-buyNow" type="button">
+              Buy Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  </body>
 </html>
+
+<script>
+  const bundle = {
+    title: "Meal Bundle",
+    description: "Meal Bundle, up to 30% discount",
+    components: [
+      {
+        title: "Fries",
+        imageUrl: "https://picsum.photos/200/100",
+        quantity: 2,
+        productId: "gid://shopify/Product/7131057979472",
+        variants: [
+          {
+            title: "French fries",
+            id: "gid://shopify/ProductVariant/41011800178768",
+            price: "10.00",
+            imageUrl: "https://picsum.photos/200/100",
+          },
+        ],
+      },
+      {
+        title: "Burgers",
+        imageUrl: "https://picsum.photos/200/100",
+        quantity: 1,
+        productId: "gid://shopify/Product/7131058012240",
+        variants: [
+          {
+            title: "Beef burger",
+            id: "gid://shopify/ProductVariant/41011800211536",
+            price: "15.00",
+            imageUrl: "https://picsum.photos/200/100",
+          },
+        ],
+      },
+      {
+        title: "Dessert",
+        imageUrl: "https://picsum.photos/200/100",
+        quantity: 1,
+        productId: "gid://shopify/Product/7131058045008",
+        variants: [
+          {
+            title: "Chocolate Cake",
+            id: "gid://shopify/ProductVariant/41011800244304",
+            price: "10.00",
+            imageUrl: "https://picsum.photos/200/100",
+          },
+        ],
+      },
+    ],
+    discounts: [
+      {
+        description: "Meal Bundle, 20% discount",
+        discountType: "percentage",
+        discountAmount: "20.00",
+        components: [
+          { productId: "gid://shopify/Product/7131057979472", percentage: 20 },
+          { productId: "gid://shopify/Product/7131058012240", percentage: 20 },
+          { productId: "gid://shopify/Product/7131058045008", percentage: 20 },
+        ],
+      },
+      {
+        description: "Meal Bundle, 10% discount",
+        discountType: "percentage",
+        discountAmount: "10.00",
+        components: [
+          { productId: "gid://shopify/Product/7131057979472" },
+          { productId: "gid://shopify/Product/7131058012240" },
+        ],
+      },
+    ],
+  };
+</script>
