@@ -220,11 +220,13 @@
     .map(
       (component) => `<div class=eb__product data-product-id = ${
         component.productId
-      }>
+      } data-product-title = ${component.title}>
             <div class = eb__product-checkbox>
-                <input type="checkbox" class="product-checkbox" checked/>
+                <input type="checkbox" id="product-checkbox" checked/>
                 </div>
-                <img src=${component.imageUrl} alt="Product Image" />
+                <img id="product-image" src=${
+                  component.imageUrl
+                } alt="Product Image" />
                 <div class="eb__product-title">
                     <span id="product-title">${component.title}</span>
                     </div>
@@ -249,6 +251,90 @@
     .join("");
 
   const productSelects = document.querySelectorAll("#product-select");
+  const productCheckboxes = document.querySelectorAll("#product-checkbox");
+  const selectedItemsDisplay = document.querySelector(
+    "#product-selected-items"
+  );
+  let cart = [];
+
+  productSelects.forEach((select) => {
+    select.addEventListener("change", () => {
+      const parentProduct = select.closest(".eb__product");
+      const selectedOption = select.options[select.selectedIndex];
+      const priceElement = parentProduct.querySelector("#product-price");
+      const variantPrice = selectedOption.getAttribute("data-price");
+      priceElement.innerHTML = parseFloat(variantPrice).toFixed(2);
+    });
+  });
+
+  function calculateTotalPrice(cart) {
+    return cart.reduce((sum, item) => {
+      return sum + item.variants.price * item.quantity;
+    }, 0);
+  }
+
+  const updateCart = () => {
+    cart = Array.from(productCheckboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => {
+        const parentProduct = checkbox.closest(".eb__product");
+        const productId = parentProduct.getAttribute("data-product-id");
+        const image = parentProduct.querySelector("#product-image").src;
+        const title = parentProduct.querySelector("#product-title").innerText;
+        const select = parentProduct.querySelector("#product-select");
+        const selectedOption = select.options[select.selectedIndex];
+        const variantId = selectedOption.value;
+        const variantTitle = selectedOption.innerText.trim("");
+        const variantPrice = selectedOption.getAttribute("data-price");
+
+        const quantity = bundle.components.find(
+          (component) => component.productId == productId
+        )?.quantity;
+
+        return {
+          productId,
+          image,
+          title,
+          quantity,
+          variants: {
+            id: variantId,
+            title: variantTitle,
+            price: variantPrice,
+          },
+        };
+      });
+    const totalPrice = calculateTotalPrice(cart);
+
+    document.getElementById("total-originalPrice").innerText = `$${totalPrice}`;
+    console.log("Total", totalPrice);
+  };
+
+  const updateSelectedItems = () => {
+    const selectedItems = Array.from(productCheckboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => {
+        const parentProduct = checkbox.closest(".eb__product");
+        return parentProduct.getAttribute("data-product-title");
+      });
+    if (selectedItems.length > 0) {
+      selectedItemsDisplay.innerText = selectedItems.join(", ");
+    } else {
+      selectedItemsDisplay.innerText = "No Items Selected";
+    }
+  };
+
+  productSelects.forEach((select) => {
+    select.addEventListener("change", () => {
+      updateCart();
+    });
+  });
+
+  productCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      updateCart();
+      updateSelectedItems();
+    });
+  });
 
   const initializeDefaultPrices = () => {
     productSelects.forEach((select) => {
@@ -259,8 +345,9 @@
       const parentProduct = select.closest(".eb__product");
       const priceElement = parentProduct.querySelector("#product-price");
       priceElement.innerHTML = variantPrice.toFixed(2);
-      console.log("Price", priceElement);
     });
+    updateSelectedItems();
+    updateCart();
   };
 
   document.addEventListener("DOMContentLoaded", (event) => {
